@@ -1,0 +1,42 @@
+name: tfcmt
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  schedule:
+    - cron: '32 17 * * 3'
+
+jobs:
+  tfcmt:
+    name: Run tfcmt
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v3
+
+      - name: Setup
+        uses: shmokmt/actions-setup-tfcmt@v2
+
+      - name: Plan
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          REPO=$(echo ${{ github.repository }} | cut -f2 -d "/")
+          terraform init
+          terraform plan -out tfplan
+          terraform show tfplan | sed -u -E  's/([0-9]{1,3}\.){3}[0-9]{1,3}/*.*.*.*/g' > plan
+          tfcmt -owner ${{ github.repository_owner }} -repo $REPO -pr ${{ github.event.pull_request.number }} --config tfcmt.conf plan -- cat plan
+
+      - name: Plan
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          REPO=$(echo ${{ github.repository }} | cut -f2 -d "/")
+          terraform init
+          terraform plan -out tfplan
+          terraform apply tfplan | sed -u -E  's/([0-9]{1,3}\.){3}[0-9]{1,3}/*.*.*.*/g' > apply
+          tfcmt -owner ${{ github.repository_owner }} -repo $REPO -pr ${{ github.event.pull_request.number }} --config tfcmt.conf apply -- cat apply
