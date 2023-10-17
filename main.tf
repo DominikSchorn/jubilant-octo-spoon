@@ -24,3 +24,13 @@ resource "aws_security_group" "allow_tls" {
     Name = "allow_tls"
   }
 }
+
+resource "azurerm_storage_account" "this" {
+  name                            = "ststore"
+  resource_group_name             = azurerm_resource_group.this.name
+  location                        = local.cluster.azure_location
+  account_tier                    = "Standard"
+  account_replication_type        = "LRS"
+  allow_nested_items_to_be_public = false
+  min_tls_version                 = "TLS1_2"
+}
