@@ -42,6 +42,9 @@ jobs:
         with:
           tflint_version: v0.44.1
 
+      - name: Init TFLint
+        run: tflint --init
+
       - name: tflint
         run: tflint -f sarif > tflint.sarif
 
