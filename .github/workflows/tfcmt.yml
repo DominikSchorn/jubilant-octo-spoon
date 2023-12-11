@@ -27,9 +27,16 @@ jobs:
         run: |
           REPO=$(echo ${{ github.repository }} | cut -f2 -d "/")
           terraform init
-          terraform plan -out tfplan
+          terraform plan -out tfplan > tfplan.log
           terraform show tfplan | sed -u -E  's/([0-9]{1,3}\.){3}[0-9]{1,3}/*.*.*.*/g' > plan
           tfcmt -owner ${{ github.repository_owner }} -repo $REPO -pr ${{ github.event.pull_request.number }} --config tfcmt.conf plan -- cat plan
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: tfplan
+          path: tfplan.log
+          retention-days: 5
 
       - name: Plan
         env:
