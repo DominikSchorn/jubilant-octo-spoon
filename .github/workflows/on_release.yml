@@ -1,0 +1,17 @@
+name: automatic image upload to artifactory (azure)
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read # for checkout
+
+jobs:
+  release:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
