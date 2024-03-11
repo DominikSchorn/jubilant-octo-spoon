@@ -30,5 +30,5 @@ jobs:
         run: npm install -g semantic-release@22.0.10 semantic-release-unsquash@0.2.0
       - name: Release
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.token }}
         run: npx semantic-release
