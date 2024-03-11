@@ -17,11 +17,8 @@ jobs:
       with:
         tflint_version: v0.44.1
 
-    - name: Show version
-      run: tflint --version
-
     - name: Init TFLint
-      run: tflint --init
+      run: tflint --init --config=.tflint.hcl
       env:
         # https://github.com/terraform-linters/tflint/blob/master/docs/user-guide/plugins.md#avoiding-rate-limiting
         GITHUB_TOKEN: ${{ github.token }}
