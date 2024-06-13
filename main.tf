@@ -1,17 +1,17 @@
 module "org-data" {
-  source = "git@github.com:nordlb-cloud/devops-k8s-modules//schemas?ref=feat%2Fgrafana-oncall"
+  source = "git@github.com:nordlb-cloud/devops-k8s-modules//schemas?ref=feat%2Fgrafana-oncall1"
   data   = file("${path.module}/setup/org.yaml")
   schema = "org"
 }
 
 module "cluster-data" {
-  source = "git@github.com:nordlb-cloud/devops-k8s-modules//schemas?ref=v1.0.0"
+  source = "git@github.com:nordlb-cloud/devops-k8s-modules//schemas?ref=v1.0.2"
   data   = file("${path.module}/setup/devops.cluster.yaml")
   schema = "cluster"
 }
 
 module "cluster-data" {
-  source = "git@github.com:nordlb-cloud/devops-k8s-modules//schemas?ref=incident%2Ffoo"
+  source = "git@github.com:nordlb-cloud/devops-k8s-modules//schemas?ref=incident%2Ffooo"
   data   = file("${path.module}/setup/devops.cluster.yaml")
   schema = "cluster"
 }
