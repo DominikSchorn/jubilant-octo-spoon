@@ -11,13 +11,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
-
-    - name: Get changed lines
-      id: changed-lines
-      uses: hestonhoffman/changed-lines@v1
+      uses: actions/checkout@v3
 
     - name: Check SemVer compliance
       run: ./.github/scripts/check_semver.sh
-      env:
-        CHANGED_LINES: ${{ steps.changed-lines.outputs.lines }}
